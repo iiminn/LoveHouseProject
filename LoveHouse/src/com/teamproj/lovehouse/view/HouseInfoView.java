@@ -1,9 +1,6 @@
 package com.teamproj.lovehouse.view;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Label;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -11,17 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import com.teamproj.lovehouse.model.dto.HouseDeal;
@@ -49,8 +36,13 @@ public class HouseInfoView {
 
 	/** 조회 조건 */
 	private JCheckBox[] chooseC;
+
 	private JComboBox<String> findC;
+	private JComboBox<String> findC2;
+
 	private JTextField wordTf;
+//	private JTextField wordTf2;
+
 	private JButton searchBt;
 
 	/** 조회 내용 표시할 table */
@@ -61,11 +53,14 @@ public class HouseInfoView {
 
 	/** 검색 조건 */
 	private String key;
+	private String key2;
 
 	/** 검색할 단어 */
 	private String word;
+	private String word2;
 	private boolean[] searchType = { true, true, true, true };
 	private String[] choice = { "all", "dong", "name" };
+	private String[] choice2 = { "all", "2006", "2007", "2008", "2009" };
 
 	/** 화면에 표시하고 있는 주택 */
 	private HouseDeal curHouse;
@@ -78,6 +73,7 @@ public class HouseInfoView {
 		// foodInfoL[0].setText(""+curfood.getCode());
 		houseInfoL[0].setText("");
 		houseInfoL[1].setText("");
+
 		houseInfoL[2].setText(curHouse.getAptName());
 		houseInfoL[3].setText("" + curHouse.getDealAmount());
 		String rent = curHouse.getRentMoney();
@@ -181,12 +177,18 @@ public class HouseInfoView {
 
 		JPanel rightTop2 = new JPanel(new GridLayout(1, 3));
 		String[] item = { "---all---", "동", "아파트 이름" };
+		String[] item2 = { "---년월---", "2006년", "2007년", "2008년", "2009년" };
+
 		findC = new JComboBox<String>(item);
+		findC2 = new JComboBox<String>(item2);
 		wordTf = new JTextField();
+//		wordTf2 = new JTextField();
 		searchBt = new JButton("검색");
 
 		rightTop2.add(findC);
+		rightTop2.add(findC2);
 		rightTop2.add(wordTf);
+//		rightTop2.add(wordTf2);
 		rightTop2.add(searchBt);
 
 		rightTop.add(new Label(""));
@@ -265,6 +267,8 @@ public class HouseInfoView {
 		}
 		word = wordTf.getText().trim();
 		key = choice[findC.getSelectedIndex()];
+		// word2 = wordTf2.getText().trim();
+		key2 = choice2[findC2.getSelectedIndex()];
 		System.out.println("word:" + word + " key:" + key);
 		showHouses();
 	}
@@ -280,6 +284,18 @@ public class HouseInfoView {
 				bean.setDong(word);
 			} else if (key.equals("name")) {
 				bean.setAptname(word);
+			}
+		}
+
+		if (key2 != null) {
+			if (key2.equals("2009")) {
+				bean.setBuildYear(2009);
+			} else if (key2.equals("2008")) {
+				bean.setBuildYear(2008);
+			} else if (key2.equals("2007")) {
+				bean.setBuildYear(2007);
+			} else if (key2.equals("2006")) {
+				bean.setBuildYear(2006);
 			}
 		}
 

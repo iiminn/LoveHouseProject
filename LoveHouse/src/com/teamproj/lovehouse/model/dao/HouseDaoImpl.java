@@ -1,13 +1,8 @@
 package com.teamproj.lovehouse.model.dao;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import com.teamproj.lovehouse.model.dto.HouseDeal;
-import com.teamproj.lovehouse.model.dto.HouseInfo;
-import com.teamproj.lovehouse.model.dto.HousePageBean;
+import com.teamproj.lovehouse.model.dto.*;
 import com.teamproj.lovehouse.util.HouseSaxParser;
 
 public class HouseDaoImpl implements HouseDao {
@@ -54,21 +49,35 @@ public class HouseDaoImpl implements HouseDao {
 		System.out.println(search);
 		String dong = bean.getDong();
 		String aptName = bean.getAptname();
+		int buildYear = bean.getBuildYear();
+
 		if (dong != null) {
 			for (HouseDeal deal : search) {
 				if (deal.getDong().contains(dong)) {
 					finds.add(deal);
 				}
 			}
-		} else if (aptName != null) {
+		}
+		if (buildYear != 0) {
+			System.out.println("???");
+			for (HouseDeal deal : search) {
+				if (deal.getBuildYear() == buildYear) {
+					finds.add(deal);
+				}
+			}
+		}
+		if (aptName != null) {
 			for (HouseDeal deal : search) {
 				if (deal.getAptName().contains(aptName)) {
 					finds.add(deal);
 				}
 			}
-		} else {
+		}
+
+		if (dong == null && buildYear == 0 && aptName == null) {
 			finds = search;
 		}
+
 		return finds;
 	}
 
